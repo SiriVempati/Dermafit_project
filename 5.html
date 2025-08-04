@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - AI Skincare & Makeup Scanner</title>
+    <script defer src="https://docs.opencv.org/3.4.0/opencv.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script defer src="script.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fdf8f6;
+            color: #333;
+        }
+
+        /* Navigation */
+        nav {
+            background: #ffcccb;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        nav ul li a:hover {
+            background: #e57373;
+            color: white;
+        }
+
+        /* About Us Section */
+        .about {
+            text-align: center;
+            padding: 50px;
+            background: #fff3f3;
+        }
+        .about h2 {
+            font-size: 2.5rem;
+            color: #d32f2f;
+            font-weight: bold;
+        }
+        .about p {
+            margin-top: 10px;
+            font-size: 1.2rem;
+            color: #555;
+            max-width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+        .about img {
+            display: block;
+            max-width: 60%;
+            height: auto;
+            border-radius: 10px;
+            margin: 30px auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Features Section */
+        .features {
+            text-align: center;
+            padding: 50px;
+            background: #ffe0e0;
+        }
+        .features h2 {
+            font-size: 2rem;
+            color: #c2185b;
+        }
+        .feature-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .feature-item img {
+            max-width: 150px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .feature-item p {
+            font-size: 1.1rem;
+            color: #444;
+            max-width: 600px;
+            text-align: left;
+        }
+
+        /* Footer */
+        .footer {
+            background: #d32f2f;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">
+            <h1 style="color: #d32f2f;">AI Skincare & Makeup Scanner</h1>
+        </div>
+        <ul>
+            <li><a href="1.html">Home</a></li>
+            <li><a href="2.html">Scanner</a></li>
+            <li><a href="3.html">Products</a></li>
+            <li><a href="4.html">Login</a></li>
+            <li><a href="5.html">About Us</a></li>
+        </ul>
+    </nav>
+
+    <!-- About Us Section -->
+    <section class="about">
+        <h2>About AI Skincare & Makeup Scanner</h2>
+        <p>Welcome to AI Skincare & Makeup Scanner, where artificial intelligence meets beauty and skincare. 
+           Our platform helps users analyze their skin type, detect skincare concerns, and choose the most suitable 
+           beauty products, including makeup and skincare items.</p>
+        <p>We aim to simplify skincare and makeup selection through AI-powered recommendations, ensuring that 
+           every product you use is perfectly suited for your skin type and tone.</p>
+        
+        <img src="https://www.herbaldynamicsbeauty.com/cdn/shop/articles/daily_guide_to_better_skincare_2000x.jpg?v=1624918418" alt="AI Skin Analysis">
+
+        <p>Our advanced AI technology detects skin issues such as acne, pigmentation, and dark spots, offering personalized 
+           skincare recommendations to help you maintain healthy, radiant skin.</p>
+
+        <img src="https://www.everyuth.com/blog/wp-content/uploads/2021/05/1-5.jpg" alt="Personalized Skincare Solutions">
+
+        <p>Beyond skincare, our real-time makeup try-on feature allows users to test foundation, lipstick, and concealer shades 
+           using their device's camera. Get instant feedback on what works best for your complexion.</p>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <h2>Our Features</h2>
+
+        <div class="feature-item">
+            <img src="https://play-lh.googleusercontent.com/kGiJm0XjY6GF5ZZ1OnTqCKs0uC_2b6T4dZvhx36YXTL2QxF6AgWBzSoBJsqWwCCaoQ" alt="AI Face Analysis">
+            <p><strong>Advanced AI Face Analysis:</strong> Our system scans your face using AI and machine learning to detect skin types, 
+               tone, and problem areas, giving you the best skincare routine.</p>
+        </div>
+
+        <div class="feature-item">
+            <img src="https://plugins-media.makeupar.com/smb/blog/post/2023-01-30/f1f22917-c8e3-4886-88ea-c1d1cfed4bff.jpg" alt="Personalized Skincare Recommendations">
+            <p><strong>Personalized Skincare Recommendations:</strong> Get AI-driven suggestions for cleansers, moisturizers, and serums based on your unique skin needs.</p>
+        </div>
+
+        <div class="feature-item">
+            <img src="https://bcw-media.s3.ap-northeast-1.amazonaws.com/B2_B_virtual_Makeup_s6_poster_6ed92d259d.jpg" alt="Makeup Try-On">
+            <p><strong>Real-Time Virtual Makeup Try-On:</strong> Experiment with different makeup products like lipstick, foundation, and concealer 
+               to see which shades suit you best.</p>
+        </div>
+
+        <div class="feature-item">
+            <img src="https://www.modelrocklashes.com/assets/webshop/cms/59/759.jpg?1645803223" alt="Product Recommendations">
+            <p><strong>AI-Powered Product Matching:</strong> Browse our database to find the best cosmetics and skincare products, 
+               complete with ingredient breakdowns and suitability scores.</p>
+        </div>
+    </section>
+
+    
+</body>
+</html>

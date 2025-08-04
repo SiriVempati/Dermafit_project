@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Skincare Scanner</title>
+    <script defer src="https://docs.opencv.org/3.4.0/opencv.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script defer src="script.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fdf8f6;
+            color: #333;
+        }
+
+        /* Navigation */
+        nav {
+            background: #ffcccb;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        nav ul li a:hover {
+            background: #e57373;
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 50px 40px;
+            background: url('https://source.unsplash.com/1600x700/?skincare,beauty') no-repeat center center/cover;
+            color:#333;
+            font-size: 1.2rem;
+            position: relative;
+        }
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        .hero p {
+            margin-top: 10px;
+        }
+        .hero .cta-btn {
+            margin-top: 20px;
+            padding: 12px 20px;
+            background: #ff6961;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .hero .cta-btn:hover {
+            background: #ff453a;
+        }
+
+        /* Featured Image Section */
+        .photo-section {
+            text-align: center;
+            margin: 40px 0;
+        }
+        .photo-section img {
+            display:inline-flex;
+            width: 1500px;
+            max-height: auto;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Products Grid */
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 50px;
+            text-align: center;
+        }
+        .product-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        .product-card img {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        /* Footer */
+        footer {
+            background: #ffcccb;
+            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">
+            <h1 style="color: #d32f2f;">AI Skincare</h1>
+        </div>
+        <ul>
+            <li><a href="1.html" onclick="showSection('home')">Home</a></li>
+            <li><a href="2.html" onclick="showSection('tests')">Scanner</a></li>
+            <li><a href="3.html" onclick="showSection('doctors')">Products</a></li>
+            <li><a href="5.html" onclick="showSection('booking')">About Us</a></li>
+            <li><a href="4.html" onclick="showSection('doctorsLogin')">Login</a></li>
+           
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Discover Your Perfect Skincare</h1>
+        <p>Scan your face and get AI-powered skincare recommendations</p>
+        <br>
+        <a href="#" class="cta-btn">Start Scanning</a>
+    </section>
+
+    <!-- Featured Photo Section -->
+    <section class="photo-section">
+        <h1>Experience AI-Powered Skincare</h1>
+        <p>Personalized solutions for healthy and radiant skin.</p>
+        <br>
+        <img src="https://imgs.littleextralove.com/wp-content/uploads/2023/04/natural-versus-chemical-skin-care-which-is-better-feat.jpg" alt="AI Skincare Analysis">
+    </section>
+
+    <!-- Products Section -->
+    <section class="products">
+        <div class="product-card">
+            <br>
+            <img src="https://cdn-cdgdl.nitrocdn.com/NuHQviBvmmEbJjrsyBBmTIMsXPDRmbhb/assets/images/optimized/rev-d522591/cureskin.com/wp-content/uploads/2024/06/home-img-1.jpg" alt="AI Analysis">
+            <h2>AI Analysis</h2>
+            <p>Get Detailed Skin Analysis</p>
+        </div>
+        <div class="product-card">
+            <img src="https://cdn-cdgdl.nitrocdn.com/NuHQviBvmmEbJjrsyBBmTIMsXPDRmbhb/assets/images/optimized/rev-d522591/cureskin.com/wp-content/uploads/2024/05/Hair-1.jpg" alt="Sunscreen">
+            <h2>Shifting focus from ‘skincare’ to ‘skin health’</h2>
+            <p>At Cureskin, 
+                Hence, applying a few random products to give your skin and hair the care it deserves is not enough.</p>
+        </div>
+        <div class="product-card">
+            <img src="https://th.bing.com/th/id/R.625c852bea8cbf5901411e4785cb9332?rik=4P1rqDXB0L4AAA&riu=http%3a%2f%2fcdn.shopify.com%2fs%2ffiles%2f1%2f0566%2f8624%2f8051%2fproducts%2fVitaminCFaceserum30ml1creative_1200x1200.jpg%3fv%3d1676370809&ehk=3vwnkX659cifQWJ69cEkuU7oJV0YrJPUSAF%2bbtiEQzc%3d&risl=&pid=ImgRaw&r=0" alt="Vitamin C Serum">
+            <h2>Vitamin C Serum</h2>
+            
+            <p>Brighten and even your complexion</p>
+        </div>
+    </section>
+
+</body>
+</html>

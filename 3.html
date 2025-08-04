@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skincare Products</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <style>
+        .hidden { display: none; }
+    </style>
+</head>
+<body class="bg-gray-100 p-5">
+    <div class="container mx-auto">
+        <h1 class="text-3xl font-bold text-center mb-5">Skincare Products</h1>
+        
+        <input type="text" id="search" placeholder="Search products..." 
+               class="w-full p-2 border rounded mb-5" onkeyup="filterProducts()">
+        
+        <select id="filterCategory" class="w-full p-2 border rounded mb-5" onchange="filterProducts()">
+            <option value="all">All Categories</option>
+            <option value="moisturizer">Moisturizer</option>
+            <option value="Lipstick">Lipstick</option>
+            <option value="Sunscreen">sunscreen</option>
+            <option value="Foundation">Foundation</option>
+            <option value="Eyeliners">Eyeliner</option>
+            <option value="Compact powder">Compact powder</option>
+            <option value="Serum">Serum</option>
+        </select>
+
+        <div id="productContainer" class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div class="product-card bg-white p-4 rounded shadow category-moisturizer">
+                <img src="https://images.mamaearth.in/catalog/product/g/e/gel-face-moisturizer.jpg?format=auto&height=600&width=600" alt="Moisturizer" class="w-full rounded">
+                <h2 class="text-lg font-bold">Hydrating Moisturizer</h2>
+                <p>Deep hydration for glowing skin.</p>
+            </div>
+
+            <div class="product-card bg-white p-4 rounded shadow category-moisturizer">
+                <img src="https://www.mcaffeine.com/cdn/shop/files/card_1_4.jpg?v=1728384907" alt="Moisturizer" class="w-full rounded">
+                <h2 class="text-lg font-bold">Hydrating Moisturizer</h2>
+                <p>Deep hydration for glowing skin.</p>
+            </div>
+            <div class="product-card bg-white p-4 rounded shadow category-moisturizer">
+                <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/cet/cet88903/l/64.jpg" alt="Moisturizer" class="w-full rounded">
+                <h2 class="text-lg font-bold">Hydrating Moisturizer</h2>
+                <p>Deep hydration for glowing skin.</p>
+            </div>
+            <div class="product-card bg-white p-4 rounded shadow category-lipstick">
+                <img src="https://wforwoman.com/cdn/shop/files/BAWPML04PK005_1.jpg?v=1719909417" alt="Lipstick" class="w-full rounded">
+                <h2 class="text-lg font-bold">Lipstick</h2>
+                <p>Brightens the lips.</p>
+            </div>
+            <div class="product-card bg-white p-4 rounded shadow category-lipstick">
+                <img src="https://images.bewakoof.com/uploads/grid/app/Types-Of-lipsticks-for-women-bewakoof-blog-7-1612420264.jpg" alt="Lipstick" class="w-full rounded">
+                <h2 class="text-lg font-bold"> Lipstick</h2>
+                <p>Brightens the lips.</p>
+            </div>
+            <div class="product-card bg-white p-4 rounded shadow category-lipstick">
+                <img src="https://images.bewakoof.com/uploads/grid/app/Types-Of-lipsticks-for-women-bewakoof-blog-6-1612420263.jpg" alt="Lipstick" class="w-full rounded">
+                <h2 class="text-lg font-bold"> Lipstick</h2>
+                <p>Brightens the lips.</p>
+            </div>
+            <div class="product-card bg-white p-4 rounded shadow category-sunscreen">
+                <img src="https://www.drsheths.com/cdn/shop/files/27.jpg?v=1689311556" alt="Sunscreen" class="w-full rounded">
+                <h2 class="text-lg font-bold">Sunscreen </h2>
+                <p>Brightens and evens skin tone.</p>
+            </div>
+            <div class="product-card bg-white p-4 rounded shadow category-sunscreen">
+                <img src="https://aqualogica.in/cdn/shop/files/Glow__Sunscreen_80g.jpg?v=1722337818" alt="Sunscreen" class="w-full rounded">
+                <h2 class="text-lg font-bold"> Sunscreen</h2>
+                <p>Brightens and evens skin tone.</p>
+            </div>
+            <div class="product-card bg-white p-4 rounded shadow category-sunscreen">
+                <img src="https://bhubotanicals.com/cdn/shop/files/Scream-Sunscreen-4.jpg?v=1711215854" alt="Sunscreen" class="w-full rounded">
+                <h2 class="text-lg font-bold">Sunscreen</h2>
+                <p>Embrace the sun.</p>
+            </div>
+            <div class="product-card bg-white p-4 rounded shadow category-foundation">
+                <img src="https://cdn.fynd.com/v2/falling-surf-7c8bb8/fyprod/wrkr/products/pictures/item/free/original/000000000494284002/y3ZSknZGg--000000000494284002_1.jpg" alt="Foundation" class="w-full rounded">
+                <h2 class="text-lg font-bold"> Foundation</h2>
+                <p>Glow like vever before.</p>
+            </div>
+            <div class="product-card bg-white p-4 rounded shadow category-foundation">
+                <img src="https://images-static.nykaa.com/media/catalog/product/0/f/0f83c0e651986701360_1.jpg" alt="Foundation" class="w-full rounded">
+                <h2 class="text-lg font-bold"> Foundation</h2>
+                <p>Glow like vever before.</p>
+            </div>
+            <div class="product-card bg-white p-4 rounded shadow category-foundation">
+                <img src="https://insightcosmetics.in/cdn/shop/files/8904207511227_1.jpg?v=1711784999&width=1024" alt="Foundation" class="w-full rounded">
+                <h2 class="text-lg font-bold"> Foundation</h2>
+                <p>Glow like vever before.</p>
+            </div>
+            <div class="product-card bg-white p-4 rounded shadow category-eyeliner">
+                <img src="https://discoverpilgrim.com/cdn/shop/files/Black-Scandal-Eyeliner-Listing-Images-1080x1080-2.jpg?v=1704274487&width=1080" alt="Eyeliners" class="w-full rounded">
+                <h2 class="text-lg font-bold"> Eyeliners</h2>
+                <p>Make your eyes look good.</p>
+            </div>
+            <div class="product-card bg-white p-4 rounded shadow category-eyeliner">
+                <img src="https://sdcdn.io/cl/cl_sku_V4R303_2400x2400_0.jpg" alt="Eyeliners" class="w-full rounded">
+                <h2 class="text-lg font-bold"> Eyeliners</h2>
+                <p>Make your eyes look good.</p>
+            </div>
+            <div class="product-card bg-white p-4 rounded shadow category-eyeliner">
+                <img src="https://cdn.fynd.com/v2/falling-surf-7c8bb8/fyprod/wrkr/products/pictures/item/free/original/000000000494511753/32rPWXauFOT-000000000494511753_1.jpg" alt="Eyeliners" class="w-full rounded">
+                <h2 class="text-lg font-bold"> Eyeliners</h2>
+                <p>Make your eyes look good.</p>
+            </div>
+            <div class="product-card bg-white p-4 rounded shadow category-compact powder">
+                <img src="https://discoverpilgrim.com/cdn/shop/files/PureIvory1_3607b756-3b03-46f8-a4d5-39b6332e1041.jpg?v=1704526615" alt="Compact powder" class="w-full rounded">
+                <h2 class="text-lg font-bold"> Compact powder</h2>
+                <p> Touch up.</p>
+            </div>
+            <div class="product-card bg-white p-4 rounded shadow category-compact powder">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTj8-XCZao72sDwMykrxJIPz728o35mwXptXw&s" alt="Compact powder" class="w-full rounded">
+                <h2 class="text-lg font-bold"> Compact powder</h2>
+                <p>Touch up.</p>
+            </div>
+            <div class="product-card bg-white p-4 rounded shadow category-compact powder">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTA0j34TEu0i_PYldPcN1QD_bNy1wuFCbmu-A&s" alt="Compact powder" class="w-full rounded">
+                <h2 class="text-lg font-bold"> Compact powder</h2>
+                <p>Touch up.</p>
+            </div>
+            <div class="product-card bg-white p-4 rounded shadow category-serum">
+                <img src="https://i5.walmartimages.com/asr/815a1b0a-80bb-454d-8c07-756e400a06f6_1.95973c705188d391d3d604b50bf76ad7.jpeg" alt=" Serum" class="w-full rounded">
+                <h2 class="text-lg font-bold"> Serum</h2>
+                <p>Transform your skin.</p>
+            </div>
+            <div class="product-card bg-white p-4 rounded shadow category-serum">
+                <img src="https://cdn.tirabeauty.com/v2/billowing-snowflake-434234/tira-p/wrkr/products/pictures/item/free/original/1023969/j9fBdUZ4gU-1023969_1.jpg?dpr=1" alt=" Serum" class="w-full rounded">
+                <h2 class="text-lg font-bold"> Serum</h2>
+                <p>Transform your skin.</p>
+            </div>
+            <div class="product-card bg-white p-4 rounded shadow category-serum">
+                <img src="https://i5.walmartimages.com/asr/23c46267-7a41-4a61-9a9d-e2badb23e4cd.7ff71ffcf36bb812f6156bf18c9302c5.jpeg" alt="Serum" class="w-full rounded">
+                <h2 class="text-lg font-bold"> Serum</h2>
+                <p>Transform your skin.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function filterProducts() {
+            let searchInput = document.getElementById('search').value.toLowerCase();
+            let categoryFilter = document.getElementById('filterCategory').value;
+            let products = document.getElementsByClassName('product-card');
+
+            for (let product of products) {
+                let title = product.getElementsByTagName('h2')[0].innerText.toLowerCase();
+                let category = product.classList.contains(`category-${categoryFilter}`) || categoryFilter === 'all';
+                let matchSearch = title.includes(searchInput);
+
+                product.style.display = matchSearch && category ? '' : 'none';
+            }
+        }
+    </script>
+</body>
+</html>

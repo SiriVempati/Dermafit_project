@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<style>
+    /* General Styles */
+    body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fdf8f6;
+            color: #333;
+        }
+
+        /* Navigation */
+        nav {
+            background: #ffcccb;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        nav ul li a:hover {
+            background: #e57373;
+            color: white;
+        }
+        /* Navigation */
+nav {
+    position: fixed; /* Fixes the navbar at the top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #ffcccb;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Ensures navbar stays above other elements */
+}
+
+body {
+    padding-top: 60px; /* Prevents content from being hidden under the navbar */
+}
+
+
+</style>
+<nav>
+    <div class="logo">
+        <h1 style="color: #d32f2f;">AI Skincare & Makeup Scanner</h1>
+    </div>
+    <ul>
+        <li><a href="1.html">Home</a></li>
+        <li><a href="2.html">Scanner</a></li>
+        <li><a href="3.html">Products</a></li>
+        <li><a href="4.html">Login</a></li>
+        <li><a href="5.html">About Us</a></li>
+    </ul>
+</nav>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-96">
+        <h2 class="text-2xl font-bold text-center mb-4">Welcome</h2>
+        <div class="flex justify-center mb-6">
+            <button id="signInTab" class="w-1/2 py-2 text-center text-blue-600 border-b-2 border-blue-600 font-bold" onclick="showForm('signIn')">Sign In</button>
+            <button id="signUpTab" class="w-1/2 py-2 text-center text-gray-500 border-b-2 border-gray-300" onclick="showForm('signUp')">Sign Up</button>
+        </div>
+        
+        <form id="signInForm" onsubmit="return validateSignIn()">
+            <input type="text" id="loginEmail" placeholder="Email or Mobile Number" class="w-full p-3 mb-3 border rounded">
+            <input type="password" id="loginPassword" placeholder="Password" class="w-full p-3 mb-3 border rounded">
+            <button type="submit" class="w-full bg-blue-600 text-white p-3 rounded font-bold">Login</button>
+        </form>
+        
+        <form id="signUpForm" class="hidden" onsubmit="return validateSignUp()">
+            <input type="text" id="signUpName" placeholder="Full Name" class="w-full p-3 mb-3 border rounded">
+            <input type="email" id="signUpEmail" placeholder="Email" class="w-full p-3 mb-3 border rounded">
+            <input type="password" id="signUpPassword" placeholder="Password" class="w-full p-3 mb-3 border rounded">
+            <button type="submit" class="w-full bg-green-600 text-white p-3 rounded font-bold">Sign Up</button>
+        </form>
+        
+        <div class="flex items-center my-4">
+            <hr class="flex-grow border-gray-300">
+            <span class="px-2 text-gray-500">or</span>
+            <hr class="flex-grow border-gray-300">
+        </div>
+        
+        <button class="w-full flex items-center justify-center bg-red-600 text-white p-3 rounded font-bold mb-2" onclick="googleSignIn()">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" class="w-6 mr-2"> Sign in with Google
+        </button>
+        <button class="w-full flex items-center justify-center bg-gray-700 text-white p-3 rounded font-bold" onclick="mobileSignIn()">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Telephone_icon.svg/1024px-Telephone_icon.svg.png" class="w-6 mr-2"> Sign in with Mobile
+        </button>
+        
+        <p class="text-center text-gray-500 mt-4">New here? <a href="#" class="text-blue-600 font-bold" onclick="showForm('signUp')">Create an account</a></p>
+    </div>
+
+    <script>
+        function showForm(formType) {
+            document.getElementById('signInForm').classList.toggle('hidden', formType !== 'signIn');
+            document.getElementById('signUpForm').classList.toggle('hidden', formType !== 'signUp');
+            document.getElementById('signInTab').classList.toggle('text-blue-600', formType === 'signIn');
+            document.getElementById('signUpTab').classList.toggle('text-blue-600', formType === 'signUp');
+        }
+        
+        function validateSignIn() {
+            let email = document.getElementById('loginEmail').value;
+            let password = document.getElementById('loginPassword').value;
+            if (email === '' || password === '') {
+                alert('Please fill in all fields');
+                return false;
+            }
+            alert('Login Successful! Redirecting...');
+            window.location.href = '1.html'; // Redirects to home page
+            return false;
+        }
+        
+        function validateSignUp() {
+            let name = document.getElementById('signUpName').value;
+            let email = document.getElementById('signUpEmail').value;
+            let password = document.getElementById('signUpPassword').value;
+            if (name === '' || email === '' || password === '') {
+                alert('Please fill in all fields');
+                return false;
+            }
+            alert('Sign Up Successful! Redirecting...');
+            window.location.href = '1.html'; // Redirects to home page
+            return false;
+        }
+        
+        function googleSignIn() {
+            alert('Google Sign-In Successful! Redirecting...');
+            window.location.href = '1.html'; // Redirects to home page
+        }
+        
+        function mobileSignIn() {
+            alert('Mobile Sign-In Successful! Redirecting...');
+            window.location.href = '1.html'; // Redirects to home page
+        }
+    </script>
+</body>
+</html>

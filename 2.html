@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fdf8f6;
+            color: #333;
+        }
+        nav {
+            background: #ffcccb;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        nav ul li a:hover {
+            background: #e57373;
+            color: white;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Skincare & Makeup Scanner</title>
+    <nav>
+        <div class="logo">
+            <h1 style="color: #d32f2f;">AI Skincare</h1>
+        </div>
+        <ul>
+            <li><a href="1.html" onclick="showSection('home')">Home</a></li>
+            <li><a href="2.html" onclick="showSection('tests')">Scanner</a></li>
+            <li><a href="3.html" onclick="showSection('doctors')">Products</a></li>
+            <li><a href="5.html" onclick="showSection('booking')">About Us</a></li>
+            <li><a href="4.html" onclick="showSection('doctorsLogin')">Login</a></li>
+        </ul>
+    </nav>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script defer src="https://docs.opencv.org/3.4.0/opencv.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/face-api.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+</head>
+<body class="bg-pink-50">
+    <div class="container mx-auto text-center py-10">
+        <h1 class="text-3xl font-bold text-red-500">AI Skincare & Makeup Scanner</h1>
+        <p class="text-gray-600 mt-2">Analyze your skin or try makeup in real-time!</p>
+
+        <div class="mt-5">
+            <button class="p-2 bg-green-500 text-white rounded" onclick="selectCategory('skincare')">Skincare Analysis</button>
+            <button class="p-2 bg-purple-500 text-white rounded" onclick="selectCategory('makeup')">Makeup Try-On</button>
+        </div>
+
+        <div id="skincare-section" class="hidden mt-5">
+            <h2 class="text-xl font-semibold">Skincare Analysis</h2>
+            <p class="text-gray-600">Upload your face image to analyze skin type and get recommendations.</p>
+            <div class="mt-5">
+                <button class="p-2 bg-blue-500 text-white rounded" onclick="chooseOption('front')">Front View</button>
+                <button class="p-2 bg-blue-500 text-white rounded" onclick="chooseOption('side')">Side View</button>
+            </div>
+            <div id="face-guide" class="hidden mt-5">
+                <p class="text-gray-700">Fit your face in the oval</p>
+                <video id="video" autoplay class="border rounded"></video>
+                <button class="mt-3 p-2 bg-green-500 text-white rounded" onclick="capturePhoto()">Capture</button>
+            </div>
+        </div>
+
+        <div id="makeup-section" class="hidden mt-5">
+            <h2 class="text-xl font-semibold">Makeup Try-On</h2>
+            <p class="text-gray-600">Select a makeup product and apply it in real-time.</p>
+
+            <select id="makeup-product" class="p-2 mt-3 border rounded">
+                <option value="lipstick">Lipstick</option>
+                <option value="foundation">Foundation</option>
+                <option value="concealer">Concealer</option>
+            </select>
+
+            <input type="color" id="shade-selector" class="mt-3" />
+            <button class="p-2 bg-blue-500 text-white rounded" onclick="applyMakeup()">Apply Makeup</button>
+        </div>
+
+        <div id="camera-container" class="hidden mt-5">
+            <video id="video-makeup" autoplay class="border rounded"></video>
+            <canvas id="canvas" class="hidden mt-5 border rounded shadow"></canvas>
+            <button class="mt-3 p-2 bg-green-500 text-white rounded" onclick="captureMakeup()">Capture & Analyze</button>
+        </div>
+
+        <div id="results" class="mt-5 text-lg font-semibold text-gray-700"></div>
+        <div id="recommendations" class="mt-5 p-4 bg-white shadow-md rounded"></div>
+    </div>
+
+    <script>
+        let video = document.getElementById("video");
+        let videoMakeup = document.getElementById("video-makeup");
+        let canvas = document.getElementById("canvas");
+        let ctx = canvas.getContext("2d");
+        let selectedMakeup = null;
+        let selectedShade = "#ff0000";
+
+        function selectCategory(category) {
+            document.getElementById("skincare-section").classList.add("hidden");
+            document.getElementById("makeup-section").classList.add("hidden");
+            document.getElementById("camera-container").classList.add("hidden");
+
+            document.getElementById(`${category}-section`).classList.remove("hidden");
+
+            if (category === "makeup") startMakeupTryOn();
+        }
+
+        async function startCamera() {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            video.srcObject = stream;
+        }
+
+        function chooseOption(option) {
+            document.getElementById("face-guide").classList.remove("hidden");
+            startCamera();
+        }
+
+        function capturePhoto() {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            analyzeImage();
+        }
+
+        async function analyzeImage() {
+            const skinType = await detectSkinType();
+            const skinTone = await detectSkinTone();
+            const skinIssues = await detectSkinIssues();
+
+            document.getElementById("results").innerHTML = `
+                <p>🧑‍⚕ <strong>Skin Type:</strong> ${skinType}</p>
+                <p>🎨 <strong>Skin Tone:</strong> ${skinTone}</p>
+                <p>🔍 <strong>Detected Issues:</strong> ${skinIssues.join(", ")}</p>
+            `;
+        }
+
+        async function detectSkinType() {
+            return ["Oily", "Dry", "Normal", "Combination"][Math.floor(Math.random() * 4)];
+        }
+
+        async function detectSkinTone() {
+            return ["Fair", "Medium", "Dark"][Math.floor(Math.random() * 3)];
+        }
+
+        async function detectSkinIssues() {
+            return ["Acne", "Dark Spots", "Pigmentation"].filter(() => Math.random() > 0.5);
+        }
+
+        // Makeup Try-On
+        async function startMakeupTryOn() {
+            document.getElementById("camera-container").classList.remove("hidden");
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            videoMakeup.srcObject = stream;
+            await faceapi.nets.tinyFaceDetector.loadFromUri('/models');
+            await faceapi.nets.faceLandmark68Net.loadFromUri('/models');
+        }
+
+        async function applyMakeup() {
+            selectedMakeup = document.getElementById("makeup-product").value;
+            selectedShade = document.getElementById("shade-selector").value;
+
+            const detections = await faceapi.detectSingleFace(videoMakeup, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks();
+            if (detections) {
+                drawMakeup(detections.landmarks);
+            }
+        }
+
+        function drawMakeup(landmarks) {
+            const lips = landmarks.getMouth();
+            const cheeks = [landmarks.getLeftCheek(), landmarks.getRightCheek()];
+            const underEyes = [landmarks.getLeftEye(), landmarks.getRightEye()];
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = selectedShade;
+            ctx.globalAlpha = 0.5;
+
+            if (selectedMakeup === "lipstick") drawPolygon(lips);
+            else if (selectedMakeup === "foundation") cheeks.forEach(drawPolygon);
+            else if (selectedMakeup === "concealer") underEyes.forEach(drawPolygon);
+
+            ctx.globalAlpha = 1.0;
+        }
+
+        function drawPolygon(points) {
+            ctx.beginPath();
+            ctx.moveTo(points[0]._x, points[0]._y);
+            for (let i = 1; i < points.length; i++) {
+                ctx.lineTo(points[i]._x, points[i]._y);
+            }
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        async function captureMakeup() {
+            const skinTone = await detectSkinTone();
+            let suitability = checkMakeupSuitability(skinTone);
+            document.getElementById("results").innerHTML = `<p>🎨 <strong>Makeup Suitability:</strong> ${suitability}</p>`;
+        }
+
+        function checkMakeupSuitability(skinTone) {
+            const suitabilityMap = {
+                "Fair": { "lipstick": "Soft pinks", "foundation": "Light shades" },
+                "Medium": { "lipstick": "Nude & berry", "foundation": "Beige tones" },
+                "Dark": { "lipstick": "Bold reds", "foundation": "Deep brown" }
+            };
+            return suitabilityMap[skinTone][selectedMakeup] || "Not enough data";
+        }
+
+        function displayRecommendations(skinType, skinTone, skinIssues, recommendedMakeup) {
+            let recommendations = `
+                <h3 class='text-xl font-bold text-gray-700'>✨ Recommended Products:</h3>
+                <ul class='mt-2 text-gray-600'>
+                    <li>✔ General care for ${skinType} skin and ${skinTone} tone.</li>
+            `;
+            skinIssues.forEach(issue => {
+                recommendations += `<li>✔ Treatment for ${issue}.</li>`;
+            });
+            recommendations += `<li>💄 Makeup: ${recommendedMakeup}</li>`;
+            recommendations += `</ul>`;
+            document.getElementById("recommendations").innerHTML = recommendations;
+        }
+    </script>
+</body>
+</html>
